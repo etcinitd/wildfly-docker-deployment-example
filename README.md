@@ -6,17 +6,23 @@ This example shows how to deploy a war file using the [`jboss/wildfly` Docker im
 
 1. Create `Dockerfile` with following content:
 
-        FROM jboss/wildfly
-        ADD node-info.war /opt/wildfly/standalone/deployments/
+        FROM jboss/wildfly:10.0.0.Final
+        ADD node-info.war /opt/jboss/wildfly/standalone/deployments/
 2. Place your `node-info.war` file in the same directory as your `Dockerfile`.
 3. Run the build with `docker build --tag=wildfly-app .`
 4. Run the container with `docker run -it -p 8080:8080 wildfly-app`. Application will be deployed on the container boot.
-5. Use `curl` to see the app working:
+5. Get the IP address of your docker VM by running `docker-machine ls`:
 
-        $ curl http://localhost:8080/node-info/
-        Hostname: f740c76cd66c
-        Java Runtime: OpenJDK Runtime Environment 1.7.0_60-mockbuild_2014_06_19_16_23-b00
-        OS: Linux amd64 3.15.4-200.fc20.x86_64
+        $ docker-machine ls
+        NAME      ACTIVE   DRIVER       STATE     URL                            SWARM
+        default            virtualbox   Running   tcp://<docker-machine-ip>:2376
+
+6. Use `curl` to see the app working:
+
+        $ curl http://<docker-machine-ip>:8080/node-info/
+        Hostname: 4e3daa7ea20f
+        Java Runtime: OpenJDK Runtime Environment 1.8.0_71-b15
+        OS: Linux amd64 4.0.9-boot2docker
 
 ## Example log
 
